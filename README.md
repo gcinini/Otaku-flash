@@ -28,3 +28,5 @@ Programming the cart:
 
 For converting a game into the uf2 format you need to install Raspberry Pico
 tools with the SDK kit.
+
+Fork by gcinini - https://github.com/gcinini
