@@ -6,15 +6,9 @@ This guide will help you set up your environment and run the build scripts to co
 
 ## 🛠️ Prerequisites
 - **Python 3.8+** installed on your system  
-- A **Raspberry Pi Pico** microcontroller  
+- A **Raspberry Pi Pico** microcontroller on a board that interfaces it to the Atari (build one using the Kicad files in the Otaku folder in this repo or check https://www.pcbway.com/project/shareproject/Otaku_Flash_Cart_for_Ataru_2600_7800_2600_17c45951.html)
 - Atari 2600 ROM files (2K, 4K, or bankswitched formats: F4, F6, F8, FE)  
 - USB cable to connect the Pico to your computer  
 - Optional: 3D-printed cartridge casing (STL files included in repo)
 
 ---
-
-## 📥 Installation
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/yourusername/atari2600-uf2-converter.git
-   cd atari2600-uf2-converter
