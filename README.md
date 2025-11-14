@@ -34,7 +34,6 @@ tools with the SDK kit.
 Fork by gcinini - https://github.com/gcinini
 
 
-```markdown
 👉 New here? Check out the [Getting Started Guide](GettingStarted.md) for installation and usage instructions.
  ----------------
 
