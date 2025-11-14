@@ -6,6 +6,8 @@ This guide will help you set up your environment and run the build scripts to co
 
 ## 🛠️ Prerequisites
 - **Python 3.8+** installed on your system  
+- Raspberry Pi Pico SDK (https://github.com/raspberrypi/pico-sdk)
+- The Stella emulator (CLI version, 6.x or 7.x) installed, and in your PATH variable - https://stella-emu.github.io/
 - A **Raspberry Pi Pico** microcontroller on a board that interfaces it to the Atari  
   - Build one using the KiCad files in the [Otaku folder](Otaku/) in this repo  
   - Or check the shared design on [PCBWay](https://www.pcbway.com/project/shareproject/Otaku_Flash_Cart_for_Ataru_2600_7800_2600_17c45951.html)  

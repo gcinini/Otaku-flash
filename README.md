@@ -102,8 +102,3 @@ If your Pico doesn’t appear as a USB drive, hold the BOOTSEL button while plug
 If the ROM size doesn’t match, check that you’re using the correct script (2K vs 4K vs bankswitched).
 
 For console compatibility issues, verify your board wiring matches the KiCad design.
-
----
-
-## 📜 License
-This project is open-source. Feel free to fork, modify, and share.  
