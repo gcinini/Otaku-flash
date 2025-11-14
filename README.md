@@ -96,6 +96,13 @@ These scripts:
 3. Copy the generated `.uf2` file to your Raspberry Pi Pico.  
 4. Insert the Pico cartridge into your Atari console and enjoy!  
 
+## ❗ Troubleshooting
+If your Pico doesn’t appear as a USB drive, hold the BOOTSEL button while plugging it in.
+
+If the ROM size doesn’t match, check that you’re using the correct script (2K vs 4K vs bankswitched).
+
+For console compatibility issues, verify your board wiring matches the KiCad design.
+
 ---
 
 ## 📜 License
