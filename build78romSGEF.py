@@ -1,6 +1,36 @@
+"""
+Atari 7800 SuperGame with EXFIX ROM Builder
+
+This module generates C source code to emulate an Atari 7800 SuperGame with
+EXFIX (Extra Fixed Bank) cartridge on a Raspberry Pi Pico. EXFIX adds an
+additional fixed bank to the SuperGame scheme.
+
+SuperGame EXFIX Details:
+    - ROM size: Up to 128KB (0x20000 bytes)
+    - Last 16KB bank (bank 7) fixed at 0xC000-0xFFFF
+    - Bank 6 also fixed at 0x4000-0x7FFF (EXFIX feature)
+    - Writing to 0x8000-0xBFFF area switches the 16KB bank at 0x8000
+    - Provides more fixed code/data space for complex games
+
+Author: Karri Kaksonen, 2024
+Based on work by Nick Bild, 2021
+"""
+
 import sys
 
 class rom:
+    """
+    SuperGame with EXFIX ROM builder class for Atari 7800 cartridges.
+    
+    This class reads an A78 ROM file with SuperGame and EXFIX features,
+    strips the 128-byte header, and generates C source code that embeds
+    the ROM data and implements SGEF bankswitching.
+    
+    Attributes:
+        raw (bytes): The complete A78 file including header
+        data (bytes): The ROM data without the 128-byte header
+    """
+    
     def __init__(self, fname):
         with open(fname, 'rb') as f:
             self.raw = f.read()

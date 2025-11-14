@@ -1,6 +1,38 @@
+"""
+Atari 2600 FE Bankswitching ROM Builder
+
+This module generates C source code to emulate an 8K Atari 2600 ROM cartridge
+with FE bankswitching on a Raspberry Pi Pico. FE bankswitching is unique as it
+monitors the 6502 stack pointer to detect JSR (jump to subroutine) and RTS
+(return from subroutine) operations for bank switching.
+
+FE Bankswitching Details:
+    - Total ROM: 8KB (2 x 4KB banks)
+    - Monitors stack address 0x01FE
+    - Bank switching triggered by JSR/RTS based on top 3 bits of address
+    - Lower 4KB (bank 0) is the startup bank
+    - Requires very fast response time to latch data mid-instruction
+
+This is one of the most challenging bankswitching schemes to emulate due to
+its timing requirements. Performance may be limited on the Pico.
+
+Author: Karri Kaksonen, 2024
+Based on work by Nick Bild, 2021
+"""
+
 import sys
 
 class rom:
+    """
+    FE bankswitching ROM builder class for Atari 2600 cartridges.
+    
+    This class reads an 8KB ROM file and generates C source code that embeds
+    the ROM data and implements FE bankswitching by monitoring the stack.
+    
+    Attributes:
+        data (bytes): The raw 8KB ROM data read from the input file
+    """
+    
     def __init__(self, fname):
         with open(fname, 'rb') as f:
             self.data = f.read()

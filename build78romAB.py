@@ -1,6 +1,35 @@
+"""
+Atari 7800 Absolute Addressing ROM Builder
+
+This module generates C source code to emulate an Atari 7800 Absolute (AB)
+addressing cartridge on a Raspberry Pi Pico. Absolute addressing cartridges
+use a different bankswitching scheme with the last 32K bank fixed.
+
+Absolute Addressing Details:
+    - ROM size: Up to 64KB (0x10000 bytes)
+    - Last 32KB bank is fixed at address 0x8000-0xFFFF
+    - Writing to 0x8000 area switches the 16KB bank at 0x4000-0x7FFF
+    - Used by some homebrew and specialized cartridges
+
+Author: Karri Kaksonen, 2024
+Based on work by Nick Bild, 2021
+"""
+
 import sys
 
 class rom:
+    """
+    Absolute addressing ROM builder class for Atari 7800 cartridges.
+    
+    This class reads an A78 ROM file with absolute addressing,
+    strips the 128-byte header, and generates C source code that embeds
+    the ROM data and implements absolute addressing bankswitching.
+    
+    Attributes:
+        raw (bytes): The complete A78 file including header
+        data (bytes): The ROM data without the 128-byte header
+    """
+    
     def __init__(self, fname):
         with open(fname, 'rb') as f:
             self.raw = f.read()

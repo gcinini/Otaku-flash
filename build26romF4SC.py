@@ -1,6 +1,34 @@
+"""
+Atari 2600 F4SC Bankswitching ROM Builder
+
+This module generates C source code to emulate a 32K Atari 2600 ROM cartridge
+with F4SC bankswitching on a Raspberry Pi Pico. F4SC combines F4 bankswitching
+with a 128-byte RAM chip (Sara Chip) for save data or variables.
+
+F4SC Bankswitching Details:
+    - Total ROM: 32KB (8 x 4KB banks)
+    - Address 0x1FF4-0x1FFB: Switch to banks 0-7
+    - Additional 128-byte RAM at 0x1080-0x10FF
+    - RAM read: addresses 0x1080-0x10FF
+    - RAM write: addresses 0x1000-0x107F
+
+Author: Karri Kaksonen, 2023
+Based on work by Nick Bild, 2021
+"""
+
 import sys
 
 class rom:
+    """
+    F4SC bankswitching ROM builder class for Atari 2600 cartridges.
+    
+    This class reads a 32KB ROM file and generates C source code that embeds
+    the ROM data and implements F4SC bankswitching with 128-byte RAM emulation.
+    
+    Attributes:
+        data (bytes): The raw 32KB ROM data read from the input file
+    """
+    
     def __init__(self, fname):
         with open(fname, 'rb') as f:
             self.data = f.read()

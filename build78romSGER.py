@@ -1,6 +1,38 @@
+"""
+Atari 7800 SuperGame with EXRAM ROM Builder
+
+This module generates C source code to emulate an Atari 7800 SuperGame with
+EXRAM (Extra RAM) cartridge on a Raspberry Pi Pico. EXRAM adds a 16KB RAM
+bank to the SuperGame scheme for save data or additional variables.
+
+SuperGame EXRAM Details:
+    - ROM size: Up to 128KB (0x20000 bytes)
+    - Last 16KB bank (bank 7) fixed at 0xC000-0xFFFF
+    - 16KB RAM bank at 0x4000-0x7FFF (EXRAM feature)
+    - Writing to 0x8000-0xBFFF area switches the 16KB ROM bank at 0x8000
+    - RAM enables save games, high scores, or complex game state
+
+The module supports both A78 files with headers and raw ROM files.
+
+Author: Karri Kaksonen, 2024
+Based on work by Nick Bild, 2021
+"""
+
 import sys
 
 class rom:
+    """
+    SuperGame with EXRAM ROM builder class for Atari 7800 cartridges.
+    
+    This class reads an A78 ROM file with SuperGame and EXRAM features,
+    optionally strips the 128-byte header, and generates C source code
+    that embeds the ROM data and implements SGER bankswitching with RAM.
+    
+    Attributes:
+        raw (bytes): The complete A78 file (with or without header)
+        data (bytes): The ROM data (header stripped if present)
+    """
+    
     def __init__(self, fname):
         with open(fname, 'rb') as f:
             self.raw = f.read()

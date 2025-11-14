@@ -1,6 +1,36 @@
+"""
+Atari 7800 8K ROM Builder
+
+This module generates C source code to emulate an 8K Atari 7800 ROM cartridge
+on a Raspberry Pi Pico. It strips the 128-byte A78 header and creates the
+emulation code for the ROM data.
+
+Unlike Atari 2600, the 7800 uses different pin mappings and timing, defined
+in pin_definitions.h. The ROM data is copied to a working array at runtime.
+
+Memory Map:
+    - ROM_SIZE: 0x2000 (8KB)
+    - ROM maps to 7800 address space appropriately
+
+Author: Karri Kaksonen, 2024
+Based on work by Nick Bild, 2021
+"""
+
 import sys
 
 class rom:
+    """
+    8K ROM builder class for Atari 7800 cartridges.
+    
+    This class reads an 8KB A78 ROM file, strips the 128-byte header,
+    and generates C source code that embeds the ROM data and implements
+    the cartridge emulation logic for the Raspberry Pi Pico.
+    
+    Attributes:
+        raw (bytes): The complete A78 file including header
+        data (bytes): The ROM data without the 128-byte header
+    """
+    
     def __init__(self, fname):
         with open(fname, 'rb') as f:
             self.raw = f.read()

@@ -1,6 +1,40 @@
+"""
+Atari 2600 F4 Bankswitching ROM Builder
+
+This module generates C source code to emulate a 32K Atari 2600 ROM cartridge
+with F4 bankswitching on a Raspberry Pi Pico. F4 bankswitching divides the 32K
+ROM into eight 4K banks that can be switched by accessing specific addresses.
+
+F4 Bankswitching Details:
+    - Total ROM: 32KB (8 x 4KB banks)
+    - Address 0x1FF4: Switch to bank 0
+    - Address 0x1FF5: Switch to bank 1
+    - Address 0x1FF6: Switch to bank 2
+    - Address 0x1FF7: Switch to bank 3
+    - Address 0x1FF8: Switch to bank 4
+    - Address 0x1FF9: Switch to bank 5
+    - Address 0x1FFA: Switch to bank 6
+    - Address 0x1FFB: Switch to bank 7
+    - Visible window: 4KB at a time
+
+Author: Karri Kaksonen, 2024
+Based on work by Nick Bild, 2021
+"""
+
 import sys
 
 class rom:
+    """
+    F4 bankswitching ROM builder class for Atari 2600 cartridges.
+    
+    This class reads a 32KB ROM file and generates C source code that embeds
+    the ROM data and implements F4 bankswitching emulation logic for the
+    Raspberry Pi Pico.
+    
+    Attributes:
+        data (bytes): The raw 32KB ROM data read from the input file
+    """
+    
     def __init__(self, fname):
         with open(fname, 'rb') as f:
             self.data = f.read()

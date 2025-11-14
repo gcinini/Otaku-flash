@@ -1,6 +1,36 @@
+"""
+Atari 2600 4K ROM Builder
+
+This module generates C source code to emulate a 4K Atari 2600 ROM cartridge
+on a Raspberry Pi Pico. It creates an inline ROM data array and the main loop
+that monitors address lines and outputs corresponding data on the GPIO bus.
+
+The 4K ROM is the most common Atari 2600 cartridge size, used by many
+classic games like Pac-Man, Space Invaders, and Pitfall.
+
+Memory Map:
+    - ROM_SIZE: 0x1000 (4KB)
+    - ROM_MASK: 0x0FFF (address mask)
+    - ROM_IN_USE: 0x1000 (flag bit for ROM access detection)
+
+Author: Karri Kaksonen, 2024
+Based on work by Nick Bild, 2021
+"""
+
 import sys
 
 class rom:
+    """
+    4K ROM builder class for Atari 2600 cartridges.
+    
+    This class reads a 4KB ROM file and generates C source code that embeds
+    the ROM data and implements the cartridge emulation logic for the
+    Raspberry Pi Pico.
+    
+    Attributes:
+        data (bytes): The raw 4KB ROM data read from the input file
+    """
+    
     def __init__(self, fname):
         with open(fname, 'rb') as f:
             self.data = f.read()

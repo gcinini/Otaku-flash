@@ -1,6 +1,37 @@
+"""
+Atari 7800 SuperGame Bankswitching ROM Builder
+
+This module generates C source code to emulate an Atari 7800 SuperGame (SG)
+cartridge on a Raspberry Pi Pico. SuperGame bankswitching is used for larger
+cartridges, supporting up to 128KB of ROM.
+
+SuperGame Bankswitching:
+    - ROM size: Up to 128KB (0x20000 bytes)
+    - Last 16KB bank (bank 7) is fixed at address 0xC000-0xFFFF
+    - Lower 16KB (0x8000-0xBFFF) is switchable
+    - Writing to 0x8000-0xBFFF area switches the active bank
+
+This is the most common bankswitching scheme for larger 7800 games.
+
+Author: Karri Kaksonen, 2024
+Based on work by Nick Bild, 2021
+"""
+
 import sys
 
 class rom:
+    """
+    SuperGame bankswitching ROM builder class for Atari 7800 cartridges.
+    
+    This class reads an A78 ROM file with SuperGame bankswitching,
+    strips the 128-byte header, and generates C source code that embeds
+    the ROM data and implements SuperGame bankswitching emulation.
+    
+    Attributes:
+        raw (bytes): The complete A78 file including header
+        data (bytes): The ROM data without the 128-byte header
+    """
+    
     def __init__(self, fname):
         with open(fname, 'rb') as f:
             self.raw = f.read()

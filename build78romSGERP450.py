@@ -1,6 +1,40 @@
+"""
+Atari 7800 SuperGame with EXRAM and POKEY@450 ROM Builder
+
+This module generates C source code to emulate an Atari 7800 SuperGame with
+EXRAM and POKEY sound chip at address 0x450 on a Raspberry Pi Pico.
+
+SuperGame EXRAM POKEY@450 Details:
+    - ROM size: Typically 128KB (8 x 16KB banks)
+    - Last 16KB bank (bank 7) fixed at 0xC000-0xFFFF
+    - 16KB RAM bank at 0x4000-0x7FFF (EXRAM feature)
+    - Writing to 0x8000-0xBFFF area switches the 16KB ROM bank at 0x8000
+    - POKEY sound chip emulated/accessed at address 0x0450
+    - Enables enhanced audio capabilities beyond TIA
+
+This configuration is used by advanced homebrew games requiring both
+RAM and enhanced audio.
+
+Author: Karri Kaksonen, 2024
+Based on work by Nick Bild, 2021
+"""
+
 import sys
 
 class rom:
+    """
+    SuperGame with EXRAM and POKEY@450 ROM builder class.
+    
+    This class reads an A78 ROM file with SuperGame, EXRAM, and POKEY features,
+    optionally strips the 128-byte header, and generates C source code
+    that embeds the ROM data and implements SGERP450 bankswitching with
+    RAM and POKEY emulation.
+    
+    Attributes:
+        raw (bytes): The complete A78 file (with or without header)
+        data (bytes): The ROM data (header stripped if present)
+    """
+    
     def __init__(self, fname):
         with open(fname, 'rb') as f:
             self.raw = f.read()

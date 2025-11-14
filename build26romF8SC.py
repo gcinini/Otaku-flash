@@ -1,6 +1,37 @@
+"""
+Atari 2600 F8SC Bankswitching ROM Builder
+
+This module generates C source code to emulate an 8K Atari 2600 ROM cartridge
+with F8SC bankswitching on a Raspberry Pi Pico. F8SC is similar to F8 but adds
+a 128-byte RAM chip (Sara Chip) for save data or variables.
+
+F8SC Bankswitching Details:
+    - Total ROM: 8KB (2 x 4KB banks)
+    - Address 0x1FF8: Switch to bank 0
+    - Address 0x1FF9: Switch to bank 1
+    - Additional 128-byte RAM at 0x1080-0x10FF
+    - RAM read: addresses 0x1080-0x10FF
+    - RAM write: addresses 0x1000-0x107F
+
+The SC (Sara Chip) provides persistent or temporary storage for games.
+
+Author: Karri Kaksonen, 2024
+Based on work by Nick Bild, 2021
+"""
+
 import sys
 
 class rom:
+    """
+    F8SC bankswitching ROM builder class for Atari 2600 cartridges.
+    
+    This class reads an 8KB ROM file and generates C source code that embeds
+    the ROM data and implements F8SC bankswitching with 128-byte RAM emulation.
+    
+    Attributes:
+        data (bytes): The raw 8KB ROM data read from the input file
+    """
+    
     def __init__(self, fname):
         with open(fname, 'rb') as f:
             self.data = f.read()

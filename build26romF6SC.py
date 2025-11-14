@@ -1,6 +1,34 @@
+"""
+Atari 2600 F6SC Bankswitching ROM Builder
+
+This module generates C source code to emulate a 16K Atari 2600 ROM cartridge
+with F6SC bankswitching on a Raspberry Pi Pico. F6SC combines F6 bankswitching
+with a 128-byte RAM chip (Sara Chip) for save data or variables.
+
+F6SC Bankswitching Details:
+    - Total ROM: 16KB (4 x 4KB banks)
+    - Address 0x1FF6-0x1FF9: Switch to banks 0-3
+    - Additional 128-byte RAM at 0x1080-0x10FF
+    - RAM read: addresses 0x1080-0x10FF
+    - RAM write: addresses 0x1000-0x107F
+
+Author: Karri Kaksonen, 2023
+Based on work by Nick Bild, 2021
+"""
+
 import sys
 
 class rom:
+    """
+    F6SC bankswitching ROM builder class for Atari 2600 cartridges.
+    
+    This class reads a 16KB ROM file and generates C source code that embeds
+    the ROM data and implements F6SC bankswitching with 128-byte RAM emulation.
+    
+    Attributes:
+        data (bytes): The raw 16KB ROM data read from the input file
+    """
+    
     def __init__(self, fname):
         with open(fname, 'rb') as f:
             self.data = f.read()
